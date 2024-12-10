@@ -33,23 +33,75 @@ public class Ride implements RideInterface {
         this.rideHistory = new ArrayList<>();
     }
 
-    // Existing getters, setters, and methods...
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getMinimumHeight() {
+        return minimumHeight;
+    }
+
+    public void setMinimumHeight(int minimumHeight) {
+        this.minimumHeight = minimumHeight;
+    }
+
+    public Employee getOperator() {
+        return operator;
+    }
+
+    public void setOperator(Employee operator) {
+        this.operator = operator;
+    }
+
+    public boolean isOperational() {
+        return isOperational;
+    }
+
+    public void setOperational(boolean operational) {
+        isOperational = operational;
+    }
 
     @Override
     public void addVisitorToQueue(Visitor visitor) {
         visitorQueue.offer(visitor);
+        System.out.println("Visitor " + visitor.getName() + " has been added to the queue for " + name);
     }
 
     @Override
     public void removeVisitorFromQueue() {
-        visitorQueue.poll();
+        Visitor removed = visitorQueue.poll();
+        if (removed != null) {
+            System.out.println("Visitor " + removed.getName() + " has been removed from the queue for " + name);
+        } else {
+            System.out.println("The queue for " + name + " is empty. No visitor removed.");
+        }
     }
 
     @Override
     public void printQueue() {
-        System.out.println("Visitors in queue for " + name + ":");
-        for (Visitor visitor : visitorQueue) {
-            System.out.println(visitor.getName());
+        if (visitorQueue.isEmpty()) {
+            System.out.println("The queue for " + name + " is currently empty.");
+        } else {
+            System.out.println("Visitors in queue for " + name + ":");
+            int position = 1;
+            for (Visitor visitor : visitorQueue) {
+                System.out.println(position + ". Name: " + visitor.getName() +
+                        ", Age: " + visitor.getAge() +
+                        ", Ticket Type: " + visitor.getTicketType());
+                position++;
+            }
         }
     }
 
@@ -94,6 +146,6 @@ public class Ride implements RideInterface {
     }
 
     public boolean isOpen() {
-        return false;
+        return isOperational && operator != null;
     }
 }
